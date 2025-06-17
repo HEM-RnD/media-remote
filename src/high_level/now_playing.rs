@@ -273,7 +273,8 @@ impl NowPlaying {
             {
                 info.elapsed_time = Some(
                     info.elapsed_time.unwrap()
-                        + info.info_update_time.unwrap().elapsed().unwrap().as_secs() as f64,
+                        + info.info_update_time.unwrap().elapsed().unwrap().as_secs() as f64
+                        * info.playback_rate.unwrap_or(1.0),
                 );
                 info.info_update_time = Some(SystemTime::now())
             }
