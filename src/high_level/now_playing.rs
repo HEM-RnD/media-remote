@@ -54,6 +54,7 @@ fn update_all(info: Arc<RwLock<Option<NowPlayingInfo>>>) {
         album_cover: None,
         elapsed_time: None,
         duration: None,
+        playback_rate: None,
         info_update_time: None,
         bundle_id: None,
         bundle_name: None,
@@ -126,6 +127,10 @@ fn update_info(info: Arc<RwLock<Option<NowPlayingInfo>>>) {
         update_float_info!(
             "kMRMediaRemoteNowPlayingInfoElapsedTime",
             info_guard.as_mut().unwrap().elapsed_time
+        );
+        update_float_info!(
+            "kMRMediaRemoteNowPlayingInfoPlaybackRate",
+            info_guard.as_mut().unwrap().playback_rate
         );
 
         if let Some(InfoTypes::Data(d)) = info.get("kMRMediaRemoteNowPlayingInfoArtworkData") {
