@@ -9,15 +9,15 @@ function run() {
 
   const MRNowPlayingRequest = $.NSClassFromString("MRNowPlayingRequest");
 
-  const client = MRNowPlayingRequest.localNowPlayingPlayerPath?.client;
-  const clientConverted = client ? {
-    bundleIdentifier: client.bundleIdentifier?.js,
-    parentApplicationBundleIdentifier:
-      client.parentApplicationBundleIdentifier?.js,
-  } : {
-    bundleIdentifier: undefined,
-    parentApplicationBundleIdentifier: undefined,
-  };
+  // const client = MRNowPlayingRequest.localNowPlayingPlayerPath?.client;
+  // const clientConverted = client ? {
+  //   bundleIdentifier: client.bundleIdentifier?.js,
+  //   parentApplicationBundleIdentifier:
+  //     client.parentApplicationBundleIdentifier?.js,
+  // } : {
+  //   bundleIdentifier: undefined,
+  //   parentApplicationBundleIdentifier: undefined,
+  // };
 
   const infoDict = MRNowPlayingRequest.localNowPlayingItem?.nowPlayingInfo;
   const infoConverted = {};
@@ -33,7 +33,7 @@ function run() {
 
   return JSON.stringify({
     isPlaying: MRNowPlayingRequest.localIsPlaying || false,
-    client: clientConverted,
+    client: null,
     info: infoConverted,
   });
 }
