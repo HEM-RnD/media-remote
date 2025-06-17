@@ -9,22 +9,30 @@ function run() {
 
   const MRNowPlayingRequest = $.NSClassFromString("MRNowPlayingRequest");
 
-  const client = MRNowPlayingRequest.localNowPlayingPlayerPath.client;
-  const clientConverted = {
-    bundleIdentifier: client.bundleIdentifier.js,
+  const client = MRNowPlayingRequest.localNowPlayingPlayerPath?.client;
+  const clientConverted = client ? {
+    bundleIdentifier: client.bundleIdentifier?.js,
     parentApplicationBundleIdentifier:
-      client.parentApplicationBundleIdentifier.js,
+      client.parentApplicationBundleIdentifier?.js,
+  } : {
+    bundleIdentifier: undefined,
+    parentApplicationBundleIdentifier: undefined,
   };
 
-  const infoDict = MRNowPlayingRequest.localNowPlayingItem.nowPlayingInfo;
+  const infoDict = MRNowPlayingRequest.localNowPlayingItem?.nowPlayingInfo;
   const infoConverted = {};
-  for (const key in infoDict.js) {
-    const value = infoDict.valueForKey(key).js;
-    infoConverted[key] = typeof value !== "object" ? value : value.getTime();
+  if (infoDict && infoDict.js) {
+    for (const key in infoDict.js) {
+      const valueObj = infoDict.valueForKey(key);
+      if (valueObj && valueObj.js !== undefined) {
+        const value = valueObj.js;
+        infoConverted[key] = typeof value !== "object" ? value : value.getTime();
+      }
+    }
   }
 
   return JSON.stringify({
-    isPlaying: MRNowPlayingRequest.localIsPlaying,
+    isPlaying: MRNowPlayingRequest.localIsPlaying || false,
     client: clientConverted,
     info: infoConverted,
   });
